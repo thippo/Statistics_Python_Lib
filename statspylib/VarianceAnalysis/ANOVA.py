@@ -62,19 +62,19 @@ class Two_Way_ANOVA():
         self.interaction=interaction
 
     def ANOVA(self,significance_level=0.05):
-        if ~self.interaction:
-            self.all_mean=(self.data.sum()).sum()/(self.data.count()).sum()
-            self.SST=(((self.data-self.all_mean)**2).sum()).sum()
-            self.SSR=(len(self.data.columns)*(self.data.mean(1)-self.all_mean)**2).sum()
-            self.SSC=(len(self.data.index)*(self.data.mean()-self.all_mean)**2).sum()
-            self.SSE=self.SST-self.SSR-self.SSC
-            self.df_SST=len(self.data.columns)*len(self.data.index)-1
-            self.df_SSR=len(self.data.index)-1
-            self.df_SSC=len(self.data.columns)-1
-            self.df_SSE=self.df_SSR*self.df_SSC
-            self.MSR=self.SSR/self.df_SSR
-            self.MSC=self.SSC/self.df_SSC
-            self.MSE=self.SSE/self.df_SSE
+        if self.interaction:
+            all_mean=(self.data.sum()).sum()/(self.data.count()).sum()
+            m=(self.data.groupby(self.data.index).count().sum()).sum()/((self.data.groupby(self.data.index).count()).count()).sum()
+            SST=(((self.data-all_mean)**2).sum()).sum()
+            SSR=len(self.data.columns)*m*((self.data.groupby(self.data.index).mean().mean(1)-all_mean)**2).sum()
+            SSC=len(list(set(self.data.index)))*m*((self.data.groupby(self.data.index).mean().mean()-all_mean)**2).sum()
+            print(SSC)
+            df_SST=(self.data.count()).sum()-1
+            df_SSR=len(list(set(self.data.index)))-1
+            df_SSC=len(self.data.columns)-1
+            df_SSRC=df_SSR*df_SSC
+            df_SSE=(df_SSR+1)*(df_SSC+1)*(m-1)
+            '''
             return_DataFrame=self.pd.DataFrame({'SS':[self.SSR,self.SSC,self.SSE,self.SST],'df':[self.df_SSR,self.df_SSC,self.df_SSE,self.df_SST],
                                                'MS':[self.MSR,self.MSC,self.MSE,np.NaN],'F-value':[self.MSR/self.MSE,self.MSC/self.MSE,np.NaN,np.NaN],
                                                'F-crit':[self.scipy.stats.f.isf(significance_level,self.df_SSR,self.df_SSE),self.scipy.stats.f.isf(significance_level,self.df_SSC,self.df_SSE),np.NaN,np.NaN],
@@ -86,14 +86,38 @@ class Two_Way_ANOVA():
             print(return_DataFrame)
             print('---------------------------------------------------------------------')
             return 'accept' if return_DataFrame['F-value'][0]<return_DataFrame['F-crit'][0] else 'refuse','accept' if return_DataFrame['F-value'][1]<return_DataFrame['F-crit'][1] else 'refuse'
-    
-    
+            '''
+        else:
+            all_mean=(self.data.sum()).sum()/(self.data.count()).sum()
+            SST=(((self.data-all_mean)**2).sum()).sum()
+            SSR=(len(self.data.columns)*(self.data.mean(1)-all_mean)**2).sum()
+            SSC=(len(self.data.index)*(self.data.mean()-all_mean)**2).sum()
+            SSE=SST-SSR-SSC
+            df_SST=len(self.data.columns)*len(self.data.index)-1
+            df_SSR=len(self.data.index)-1
+            df_SSC=len(self.data.columns)-1
+            df_SSE=df_SSR*df_SSC
+            MSR=SSR/df_SSR
+            MSC=SSC/df_SSC
+            MSE=SSE/df_SSE
+            return_DataFrame=self.pd.DataFrame({'SS':[SSR,SSC,SSE,SST],'df':[df_SSR,df_SSC,df_SSE,df_SST],
+                                               'MS':[MSR,MSC,MSE,np.NaN],'F-value':[MSR/MSE,MSC/MSE,np.NaN,np.NaN],
+                                               'F-crit':[self.scipy.stats.f.isf(significance_level,df_SSR,df_SSE),self.scipy.stats.f.isf(significance_level,df_SSC,df_SSE),np.NaN,np.NaN],
+                                               'result':['[accept]' if MSR/MSE<=self.scipy.stats.f.isf(significance_level,df_SSR,df_SSE) else '[refuse]','[accept]' if MSC/MSE<=self.scipy.stats.f.isf(significance_level,df_SSC,df_SSE) else '[refuse]',np.NaN,np.NaN],
+                                               'R2':[(SSR+SSC)/SST,np.NaN,np.NaN,np.NaN]},
+                                               index=['R','C','E','T'],columns=['SS','df','MS','F-value','F-crit','result','R2'])
+            print('ANOVA result')
+            print('---------------------------------------------------------------------')
+            print(return_DataFrame)
+            print('---------------------------------------------------------------------')
+            return 'accept' if return_DataFrame['F-value'][0]<return_DataFrame['F-crit'][0] else 'refuse','accept' if return_DataFrame['F-value'][1]<return_DataFrame['F-crit'][1] else 'refuse'
+
     
     
 if __name__=='__main__':
     import numpy as np
     import pandas as pd
-    
+    '''
     retail=[57,66,49,40,34,53,44]
     tourism=[68,39,29,45,56,51]+[np.NaN]*1
     aircraft=[31,49,21,34,40]+[np.NaN]*2
@@ -114,5 +138,10 @@ if __name__=='__main__':
     b=Two_Way_ANOVA(data2)
     b.ANOVA()
     print()
-
+    '''
+    road1=[26,24,27,25,25,20,17,22,21,17]
+    road2=[19,20,23,22,21,18,17,13,16,12]
+    data3=pd.DataFrame({'road1':road1,'road2':road2},columns=['road1','road2'],index=['peak']*5+['nopeak']*5)
+    c=Two_Way_ANOVA(data3,interaction=True)
+    print(c.ANOVA())
     
