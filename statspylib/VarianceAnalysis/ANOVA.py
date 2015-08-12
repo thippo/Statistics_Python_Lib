@@ -55,7 +55,6 @@ class One_Way_ANOVA():
 if __name__=='__main__':
     import numpy as np
     import pandas as pd
-    import matplotlib.pyplot as plt
     retail=[57,66,49,40,34,53,44]
     tourism=[68,39,29,45,56,51]+[np.NaN]*1
     aircraft=[31,49,21,34,40]+[np.NaN]*2
