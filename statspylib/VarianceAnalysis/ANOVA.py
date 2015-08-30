@@ -16,6 +16,22 @@ class One_Way_ANOVA():
         self.df_SSE=self.df_SST-self.df_SSA
         self.MSA=self.SSA/self.df_SSA
         self.MSE=self.SSE/self.df_SSE
+        self.homogeneity_of_variance()
+        
+    def homogeneity_of_variance(self):
+        print('homogeneity of variance result (Bartlett)')
+        print('---------------------------------------------------------------------')
+        statistic,pvalue=self.scipy.stats.bartlett(*[self.data[x].dropna() for x in self.data.columns])
+        print('statistic: ',statistic)
+        print('pvalue: ',pvalue)
+        print('---------------------------------------------------------------------');print()
+        print('homogeneity of variance result (Levene)')
+        print('---------------------------------------------------------------------')
+        statistic,pvalue=self.scipy.stats.levene(*[self.data[x].dropna() for x in self.data.columns])
+        print('statistic: ',statistic)
+        print('pvalue: ',pvalue)
+        print('---------------------------------------------------------------------');print()
+        
     
     def ANOVA(self,significance_level=0.05,LSD=True):
         return_DataFrame=self.pd.DataFrame({'SS':[self.SSA,self.SSE,self.SST],'df':[self.df_SSA,self.df_SSE,self.df_SST],
@@ -60,6 +76,21 @@ class Two_Way_ANOVA():
         assert isinstance(interaction,bool),'interaction must be bool'
         self.data=dataframe
         self.interaction=interaction
+        self.homogeneity_of_variance()
+        
+    def homogeneity_of_variance(self):
+        print('homogeneity of variance result (Bartlett)')
+        print('---------------------------------------------------------------------')
+        statistic,pvalue=self.scipy.stats.bartlett(*[self.data[x].dropna() for x in self.data.columns])
+        print('statistic: ',statistic)
+        print('pvalue: ',pvalue)
+        print('---------------------------------------------------------------------');print()
+        print('homogeneity of variance result (Levene)')
+        print('---------------------------------------------------------------------')
+        statistic,pvalue=self.scipy.stats.levene(*[self.data[x].dropna() for x in self.data.columns])
+        print('statistic: ',statistic)
+        print('pvalue: ',pvalue)
+        print('---------------------------------------------------------------------');print()
 
     def ANOVA(self,significance_level=0.05):
         if self.interaction:
