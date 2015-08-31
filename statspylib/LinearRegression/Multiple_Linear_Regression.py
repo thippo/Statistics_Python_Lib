@@ -48,9 +48,41 @@ class Multiple_Linear_Regression():
                                 self.clf.coef_[q]+self.ss.t.isf(self.significance_level,len(self.y)-1-len(self.x.transpose()))*self.se/self.np.sqrt((self.x.transpose()[q]**2).sum()-((self.x.transpose()[q]).sum())**2/len(self.y)),
                                 self.clf.coef_[q]*self.np.sqrt((self.x.transpose()[q]**2).sum()-((self.x.transpose()[q]).sum())**2/len(self.y))/self.se,
                                 self.ss.t.sf(self.clf.coef_[q]*self.np.sqrt((self.x.transpose()[q]**2).sum()-((self.x.transpose()[q]).sum())**2/len(self.y))/self.se,len(self.y)-1-len(self.x.transpose()))] for q in range(len(self.clf.coef_))}
-        print(self.pd.DataFrame(test_dict,columns=['x'+str(q+1) for q in range(len(self.clf.coef_))],index=['coef','low','up','t-statistic','pvalue']).T)
+        print(self.pd.DataFrame(test_dict,columns=['x'+str(q+1) for q in range(len(self.clf.coef_))],index=['coef','low','up','t-statistic','pvalue']).T);print()
         
 
+    def multicollinearity(self):
+        import itertools
+        print('multicollinearity test')
+        print('---------------------------------------------------------------------')
+        print('#correlation coefficient')
+        for i in itertools.combinations(range(len(self.clf.coef_)),2):
+            r=self.np.corrcoef(self.x.transpose()[i[0]],self.x.transpose()[i[1]])[0,1]
+            print('x'+str(i[0]+1),'x'+str(i[1]+1),'|',r)
+        print();print('#correlation coefficient statistic')
+        corcrit=self.ss.t.isf(self.significance_level/2,len(self.y)-2)
+        for i in itertools.combinations(range(len(self.clf.coef_)),2):
+            r=self.np.corrcoef(self.x.transpose()[i[0]],self.x.transpose()[i[1]])[0,1]
+            corstatistic=r*np.sqrt(len(self.y)-2)/np.sqrt(1-r**2)
+            print('x'+str(i[0]+1),'x'+str(i[1]+1),'|',corstatistic,'>=' if corstatistic>=corcrit else '<',corcrit)
+        print();print('#VIF variance inflation factor')
+        for i in range(len(self.x.transpose())):
+            vif=self._VIF(self.x.transpose()[[j for j in range(len(self.x.transpose())) if j!=i]].transpose(),self.x.transpose()[i])
+            print('x'+str(i+1),'|',vif,'*' if vif>=10 else '')
+    
+    def _VIF(self,x,y):
+        clf = self.linear_model.LinearRegression()
+        clf.fit(x,y)
+        x_pd=self.pd.DataFrame(x)
+        y_fit=(x_pd*clf.coef_).sum(1)+clf.intercept_
+        SST=((y-y.mean())**2).sum()
+        SSR=((y_fit-y.mean())**2).sum()
+        VIF=1/(1-SSR/SST)
+        return VIF
+    
+    def predict(self,x):
+        assert isinstance(x,(tuple,list)),'x must be tulpe or list'
+        return self.clf.predict(x)
         
         
         
@@ -61,6 +93,7 @@ if __name__=='__main__':
     y = np.array([162,120,223,131,67,169,81,192,116,55,252,232,144,103,212])
     a=Multiple_Linear_Regression(x,y)
     a.linear_regression()
+    print(a.predict((1,1)))
     #'''
     '''
     bldk=[0.9,1.1,4.8,3.2,7.8,2.7,1.6,12.5,1,2.6,0.3,4,0.8,3.5,10.2,3,0.2,0.4,1,6.8,11.6,1.6,1.2,7.2,3.2]
@@ -72,4 +105,11 @@ if __name__=='__main__':
     y=np.array(bldk)
     b=Multiple_Linear_Regression(x,y)
     b.linear_regression()
+    b.multicollinearity()
+    #'''
+    '''
+    x = np.array([[7, 1, 11, 11, 7, 11, 3, 1, 2, 21, 1, 11, 10],[26, 29, 56, 31, 52, 55, 71, 31, 54, 47, 40, 66, 68],[6, 15, 8, 8, 6, 9, 17, 22, 18, 4, 23, 9, 8],[60, 52, 20, 57, 33, 22, 6, 44, 22, 18, 34, 12, 12]])
+    y = np.array([78.5, 74.3, 104.3, 87.6, 95.9, 109.2, 102.7, 72.5, 93.1, 115.9, 83.8, 113.3, 109.4])
+    c=Multiple_Linear_Regression(x,y)
+    c.multicollinearity()
     '''
