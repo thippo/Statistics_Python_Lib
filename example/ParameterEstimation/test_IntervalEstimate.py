@@ -1,5 +1,3 @@
-import sys
-sys.path.append("D:\\Statistics_In_Python")
 from statspylib.ParameterEstimation.IntervalEstimate import *
 
 #p159 例7.1

@@ -1,5 +1,3 @@
-import sys
-sys.path.append("D:\\Statistics_In_Python")
 from statspylib.ParameterEstimation.DetermineSampleSize import *
 
 #p175 例7.12

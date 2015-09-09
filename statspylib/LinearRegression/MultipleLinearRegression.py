@@ -26,7 +26,7 @@ class Multiple_Linear_Regression():
         print(self.SST,self.SSR)
         print('R2 (multiple coefficient of determination):',self.SSR/self.SST)
         print('R2 (adjusted multiple coefficient of determination):',1-(1-self.SSR/self.SST)*((len(self.y)-1)/(len(self.y)-1-len(self.x.transpose()))));print()
-        self.se=np.sqrt((self.SST-self.SSR)/(len(self.y)-1-len(self.x.transpose())))
+        self.se=self.np.sqrt((self.SST-self.SSR)/(len(self.y)-1-len(self.x.transpose())))
         print('standard error:',self.se)
         print('---------------------------------------------------------------------');print()
         self._significance_test()
@@ -63,7 +63,7 @@ class Multiple_Linear_Regression():
         corcrit=self.ss.t.isf(self.significance_level/2,len(self.y)-2)
         for i in itertools.combinations(range(len(self.clf.coef_)),2):
             r=self.np.corrcoef(self.x.transpose()[i[0]],self.x.transpose()[i[1]])[0,1]
-            corstatistic=r*np.sqrt(len(self.y)-2)/np.sqrt(1-r**2)
+            corstatistic=r*self.np.sqrt(len(self.y)-2)/self.np.sqrt(1-r**2)
             print('x'+str(i[0]+1),'x'+str(i[1]+1),'|',corstatistic,'>=' if corstatistic>=corcrit else '<',corcrit)
         print();print('#VIF variance inflation factor')
         for i in range(len(self.x.transpose())):
@@ -84,32 +84,3 @@ class Multiple_Linear_Regression():
         assert isinstance(x,(tuple,list)),'x must be tulpe or list'
         return self.clf.predict(x)
         
-        
-        
-if __name__=='__main__':    
-    import numpy as np
-    #'''
-    x = np.array([[274,180,375,205,86,265,98,330,195,53,430,372,236,157,370],[2450,3250,3802,2838,2347,3782,3008,2450,2137,2560,4020,4427,2660,2088,2605]])
-    y = np.array([162,120,223,131,67,169,81,192,116,55,252,232,144,103,212])
-    a=Multiple_Linear_Regression(x,y)
-    a.linear_regression()
-    print(a.predict((1,1)))
-    #'''
-    '''
-    bldk=[0.9,1.1,4.8,3.2,7.8,2.7,1.6,12.5,1,2.6,0.3,4,0.8,3.5,10.2,3,0.2,0.4,1,6.8,11.6,1.6,1.2,7.2,3.2]
-    gxdkye=[67.3,111.3,173,80.8,199.7,16.2,107.4,185.4,96.1,72.8,64.2,132.2,58.6,174.6,263.5,79.3,14.8,73.5,24.7,139.4,368.2,95.7,109.6,196.2,102.2]
-    bnljysdk=[6.8,19.8,7.7,7.2,16.5,2.2,10.7,27.1,1.7,9.1,2.1,11.2,6,12.7,15.6,8.9,0.6,5.9,5,7.2,16.8,3.8,10.3,15.8,12]
-    dkxmgs=[5,16,17,10,19,1,17,18,10,14,11,23,14,26,34,15,2,11,4,28,32,10,14,16,10]
-    bngdzctze=[51.9,90.9,73.7,14.5,63.2,2.2,20.2,43.8,55.9,64.3,42.7,76.7,22.8,117.1,146.7,29.9,42.1,25.3,13.4,64.3,163.9,44.5,67.9,39.7,97.1]
-    x=np.array([gxdkye,bnljysdk,dkxmgs,bngdzctze])
-    y=np.array(bldk)
-    b=Multiple_Linear_Regression(x,y)
-    b.linear_regression()
-    b.multicollinearity()
-    #'''
-    '''
-    x = np.array([[7, 1, 11, 11, 7, 11, 3, 1, 2, 21, 1, 11, 10],[26, 29, 56, 31, 52, 55, 71, 31, 54, 47, 40, 66, 68],[6, 15, 8, 8, 6, 9, 17, 22, 18, 4, 23, 9, 8],[60, 52, 20, 57, 33, 22, 6, 44, 22, 18, 34, 12, 12]])
-    y = np.array([78.5, 74.3, 104.3, 87.6, 95.9, 109.2, 102.7, 72.5, 93.1, 115.9, 83.8, 113.3, 109.4])
-    c=Multiple_Linear_Regression(x,y)
-    c.multicollinearity()
-    '''

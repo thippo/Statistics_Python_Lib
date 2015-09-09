@@ -6,5 +6,5 @@ setup(name='statspylib',
       author='thippo',  
       author_email='thippo@163.com',  
       url='http://thippo.github.io',  
-      packages=['statspylib','statspylib.HypothesisTesting','statspylib.LinearRegression','statspylib.ParameterEstimation','statspylib.VarianceAnalysis'],  
+      packages=['statspylib','statspylib.HypothesisTesting','statspylib.LinearRegression','statspylib.ParameterEstimation','statspylib.VarianceAnalysis','statspylib.MultivariateStatistics'],  
      )  

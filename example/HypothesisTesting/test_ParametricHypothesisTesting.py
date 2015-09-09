@@ -1,5 +1,3 @@
-import sys
-sys.path.append("D:\\Statistics_In_Python")
 from statspylib.HypothesisTesting.ParametricHypothesisTesting import *
 
 #p192 例8.4
@@ -59,4 +57,4 @@ print(double_population_variance_proportion_hypothesis_testing('double',0.05,15,
 
 #p206 例8.15
 
-print(double_population__mean_subtraction_hypothesis_testing_matched_sample('single',0.05,10,9.85,2.199,8.5))
+print(double_population_mean_subtraction_hypothesis_testing_matched_sample('single',0.05,10,9.85,2.199,8.5))
