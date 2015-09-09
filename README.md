@@ -85,12 +85,12 @@ Single_Population_Test()
 　　**Wilcoxon符号秩检验（方法）**       
 　　wilcoxon_signed_rank_test(arr)       
        
-**分布的一致性检验：\(\chi^2\)检验/适合度检验（函数）**       
+**分布的一致性检验：\$\chi^2\$检验/适合度检验（函数）**       
 goodness_of_fit_test(f_obs,f_exp,significance_level=0.05)       
          
 **双总体假设检验（类）**       
 Double_Population_Test()          
-　　**\(\chi^2\)独立性检验（方法）**       
+　　**$\chi^2$独立性检验（方法）**       
 　　test_of_independence(observed,significance_level=0.05)      
 　　**Fisher精确检验（方法）**       
 　　fisher_exact_test(table,alternative='two-sided')       
