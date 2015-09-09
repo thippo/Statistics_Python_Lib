@@ -172,6 +172,6 @@ def double_population_variance_proportion_hypothesis_testing(test_direction,sign
 	else:
 		print('wrong parameter! Check test_direction!')
 
-def double_population__mean_subtraction_hypothesis_testing_matched_sample(test_direction,significant_level,sample_size,sample_subtraction_mean,sample_subtraction_standard_deviation,population_subtraction_mean):
+def double_population_mean_subtraction_hypothesis_testing_matched_sample(test_direction,significant_level,sample_size,sample_subtraction_mean,sample_subtraction_standard_deviation,population_subtraction_mean):
 	if sample_size<30 and test_direction=='single':
 		return (population_subtraction_mean+scipy.stats.t.isf(significant_level,sample_size-1)*sample_subtraction_standard_deviation/numpy.sqrt(sample_size),population_subtraction_mean)
