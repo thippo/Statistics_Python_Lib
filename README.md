@@ -8,12 +8,18 @@ thippo
 thippo@163.com   
 http://thippo.github.io   
 
-#####**必须依赖包**
+####**必须依赖包**
 - numpy
 - scipy
 - pandas
 - matplotlib
 - scikit-learn
+
+####**安装**
+
+    git clone git@github.com:thippo/Statistics_Python_Lib.git
+    cd Statistics_Python_Lib
+    python setup.py install
 
 ####**模块结构**
 **statspylib**   
