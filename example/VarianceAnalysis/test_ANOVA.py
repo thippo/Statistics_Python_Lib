@@ -3,15 +3,17 @@ from statspylib.VarianceAnalysis.ANOVA import *
 import numpy as np
 import pandas as pd
 
+#p234 例 10.1
 retail=[57,66,49,40,34,53,44]
 tourism=[68,39,29,45,56,51]+[np.NaN]*1
 aircraft=[31,49,21,34,40]+[np.NaN]*2
 manufacturing=[44,51,65,77,58]+[np.NaN]*2
 data1=pd.DataFrame({'retail':retail,'tourism':tourism,'aircraft':aircraft,'manufacturing':manufacturing},columns=['retail','tourism','aircraft','manufacturing'])
 a=One_Way_ANOVA(data1)
-a.ANOVA()
+a.ANOVA(significance_level=0.05,LSD=True)
 print()
 
+#p249 例 10.3
 area1=[365,345,358,288]
 area2=[350,368,323,280]
 area3=[343,363,353,298]
@@ -24,6 +26,7 @@ b=Two_Way_ANOVA(data2)
 b.ANOVA()
 print()
 
+#p255 例 10.5
 road1=[26,24,27,25,25,20,17,22,21,17]
 road2=[19,20,23,22,21,18,17,13,16,12]
 data3=pd.DataFrame({'road1':road1,'road2':road2},columns=['road1','road2'],index=['peak']*5+['nopeak']*5)
