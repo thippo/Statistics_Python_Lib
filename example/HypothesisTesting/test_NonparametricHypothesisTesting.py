@@ -22,6 +22,11 @@ b.wilcoxon_signed_rank_test([4632,4728,5052,5064,5484,6972,7696,9048,14760,15013
 '''
 goodness_of_fit_test([35,16,15,17,17,19,11,16,30,24],[sum([35,16,15,17,17,19,11,16,30,24])/len([35,16,15,17,17,19,11,16,30,24])]*10,0.05)
 
+
+#p220 例 9.2
+c=Double_Population_Test()    
+c.test_of_independence(pd.DataFrame({'one':[52,60,50],'two':[64,59,65],'three':[24,52,74]},index=['jia','yi','bing'],columns=['one','two','three']))
+
 '''
 例7.3.1 表是对63个肺癌患者和由43人组成的对照组的调查结果.
 问总体中患肺癌是否与吸烟有关系?p=0.05
@@ -29,10 +34,6 @@ goodness_of_fit_test([35,16,15,17,17,19,11,16,30,24],[sum([35,16,15,17,17,19,11,
 肺癌患者	60 	3
 对照组	32 	11
 '''
-c=Double_Population_Test()    
-c.test_of_independence(pd.DataFrame({'xi':[60,32],'buxi':[3,11]},index=['fei','dui'],columns=['xi','buxi']))
-
-#同上
 d=Double_Population_Test()
 d.fisher_exact_test(pd.DataFrame({'xi':[60,32],'buxi':[3,11]},index=['fei','dui'],columns=['xi','buxi']),alternative="greater")
 

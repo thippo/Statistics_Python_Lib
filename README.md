@@ -90,17 +90,17 @@ goodness_of_fit_test(f_obs,f_exp,significance_level=0.05)
          
 **双总体假设检验（类）**       
 Double_Population_Test()          
-　　**卡方独立性检验（方法）**       
+　　**卡方独立性检验（方法）不允许20%以下的格子的期望频数小于5**       
 　　test_of_independence(observed,significance_level=0.05)      
-　　**Fisher精确检验（方法）**       
+　　**Fisher精确检验（方法）允许20%以下的格子的期望频数小于5**       
 　　fisher_exact_test(table,alternative='two-sided')       
-　　**Wilcoxon秩和检验（方法）**       
+　　**位置参数的Wilcoxon秩和检验（方法）**       
 　　wilcoxon_rank_sum_test(x,y)      
-　　**Mann-Whitney U检验（方法）**       
+　　**位置参数的Mann-Whitney U检验（方法）**       
 　　mann_whitney_U_test(x,y,use_continuity=True)       
-　　**Mood检验（方法）**       
+　　**尺度参数的Mood检验（方法）**       
 　　mood_test(x,y,axis=0)      
-　　**Ansaru-Bradley检验（方法）**       
+　　**尺度参数的Ansaru-Bradley检验（方法）**       
 　　ansari_bradle_test(x,y)       
           
 **多总体假设检验（类）**       
