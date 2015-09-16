@@ -23,7 +23,6 @@ class Multiple_Linear_Regression():
         y_fit=(self.x_pd*self.clf.coef_).sum(1)+self.clf.intercept_
         self.SST=((self.y-self.y.mean())**2).sum()
         self.SSR=((y_fit-self.y.mean())**2).sum()
-        print(self.SST,self.SSR)
         print('R2 (multiple coefficient of determination):',self.SSR/self.SST)
         print('R2 (adjusted multiple coefficient of determination):',1-(1-self.SSR/self.SST)*((len(self.y)-1)/(len(self.y)-1-len(self.x.transpose()))));print()
         self.se=self.np.sqrt((self.SST-self.SSR)/(len(self.y)-1-len(self.x.transpose())))
